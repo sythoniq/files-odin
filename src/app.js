@@ -1,3 +1,4 @@
+const path = require("node:path")
 const passport = require("passport");
 const express = require("express");
 const expressSession = require('express-session');
@@ -6,6 +7,10 @@ const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const prisma = require("./configs/prisma.js");
 
 const app = express();
+
+app.use(express.urlencoded({extended: true}))
+app.set('views', path.join(__dirname, "views"))
+app.set("view engine", "ejs")
 
 app.use(
   expressSession({
