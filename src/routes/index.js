@@ -11,7 +11,7 @@ index.get("/login", (req, res) => res.render("login"))
 
 index.post("/sign-up", controller.register)
 index.post("/login", passport.authenticate('local', {
-  succesRedirect: "/home",
+  successRedirect: "/home",
   failureRedirect: "/login"
 }))
 

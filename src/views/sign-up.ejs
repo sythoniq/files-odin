@@ -6,7 +6,11 @@
   <body>
     <%- include('partials/header.ejs') %>
     <form action="/sign-up" method="post">
+      <h2>Sign Up</h2>
       <input type="text" name="username" placeholder="Username" />
+      <input type="email" name="email" placeholder="mail@mail.com" />
+      <input type="password" name="password" placeholder="********" />
+      <button type="submit">Sign Up</button>
     </form>
   </body>
 </html>

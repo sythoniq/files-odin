@@ -5,12 +5,11 @@ const prisma = require("./prisma.js")
 
 passport.use(new LocalStrategy(async (username, password, done) => {
   try {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
       where: {
-        username: username
+        name: username
       }
     })
-    console.log(user);
     const result = await bcrypt.compare(password, user.hash);
 
     if (!user) {
