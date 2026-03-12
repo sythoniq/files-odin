@@ -55,8 +55,13 @@ async function loadFolder(req, res, next) {
   next();
 }
 
+async function deleteFolder(req, res, next) {
+  console.log(req.params);
+}
+
 module.exports = {
   register,
   home,
-  loadFolder
+  loadFolder,
+  deleteFolder
 }

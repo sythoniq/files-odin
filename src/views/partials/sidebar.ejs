@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-    <main>
       <% if (locals.folders) { %>
       <section class="sidebar">
         <div class="folder-list">
           <% folders.forEach((folder) => {%>
+          <div class="folder-btn">
           <a href="/<%= folder.id %>">
             <p class="folder-link"><%= folder.name %></p>
           </a>
+          <a href="/<%= folder.id %>/delete">
+            <p>x</p>
+          </a>
+          </div> 
           <%})%>
         </div> 
         <form action="/upload" method="post">
@@ -16,5 +20,4 @@
         </form>
       </section>
       <%}%>
-    </main>
 </html>
