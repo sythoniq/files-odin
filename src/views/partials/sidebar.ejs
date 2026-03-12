@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <main>
+      <% if (locals.folders) { %>
+      <section class="sidebar">
+        <div class="folder-list">
+          <% folders.forEach((folder) => {%>
+          <a href="/<%= folder.id %>">
+            <p class="folder-link"><%= folder.name %></p>
+          </a>
+          <%})%>
+        </div> 
+        <form action="/upload" method="post">
+          <input type="text" name="name" placeholder="Folder Name"/>
+          <button type="submit">Upload</button>
+        </form>
+      </section>
+      <%}%>
+    </main>
+</html>

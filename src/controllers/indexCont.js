@@ -34,6 +34,29 @@ const register = [
   }
 ]
 
+async function home(req, res, next) {
+  const folders = await prisma.folders.findMany({});
+  res.render("home", {
+    folders:  folders, // Array of objects with name and ID
+  });
+  next();
+}
+
+async function loadFolder(req, res, next) {
+  const id = Number(req.params.folderid)
+  const folders = await prisma.folders.findMany({})
+  const folder = await prisma.folders.findUnique({
+    where: {id}
+  })
+  res.render("folder", {
+    folder,
+    folders
+  }); 
+  next();
+}
+
 module.exports = {
   register,
+  home,
+  loadFolder
 }

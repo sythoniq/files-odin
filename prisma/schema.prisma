@@ -16,16 +16,24 @@ datasource db {
 model User { 
   id    Int     @id @default(autoincrement()) 
   email String  @unique
-  name  String
+  name  String  @unique
   hash String
   files File[]
 } 
+
+model Folders {
+  id    Int @id @default(autoincrement())  
+  name  String
+  files File[]
+}
+
 model File { 
   id        Int     @id @default(autoincrement()) 
-  content     String
-  published Boolean @default(false) 
+  content     String @unique
   uploader    User    @relation(fields: [uploaderId], references: [id]) 
   uploaderId  Int
+  folder      Folders    @relation(fields: [folderId], references: [id])
+  folderId    Int
 } 
 
 model Session {
