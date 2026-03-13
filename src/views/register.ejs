@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Register</title>
+  </head>
+  <body>
+    <%- include('partials/header.ejs') %>
+    <%- include('partials/errors.ejs') %>
+    <main class="register-page">
+      <h3>Sign Up</h3>
+      <form action="/sign-up" method="post">
+        <input type="text" name="username" placeholder="Username" />
+        <input type="password" name="password" placeholder="Password" />
+        <input type="password" name="confirm-password" placeholder="Confirm Password" />
+        <button type="submit">Register</button>
+      </form>
+    </main>
+  </body>
+</html>

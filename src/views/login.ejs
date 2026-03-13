@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Log In</title>
+  </head>
+  <body>
+    <%- include('partials/header.ejs') %>
+
+    <main class="login-page">
+      <h3>Log In</h3>
+      <form action="/login" method="post">
+        <input type="text" name="username" placeholder="Username" />
+        <input type="password" name="password" placeholder="Password" />
+        <button type="submit">Log In</button>
+      </form>
+      <a href="/sign-up">
+        <p>Create account</p>
+      </a>
+    </main>
+  </body>
+</html>
