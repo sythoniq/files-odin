@@ -1,1 +1,17 @@
 <!DOCTYPE html>
+<html lang="en">
+  <% if (locals.folders) {%>
+  <%- include("partials/header.ejs") %>
+  <main class='folders-container'>
+    <form action="/folder/upload" method="post">
+      <input type="text" name="folder" placeholder="Folder"/>
+      <button type="submit">Add Folder</button>
+    </form>
+    <% folders.forEach((folder) => { %>
+    <a href="/folder/<%= folder.id %>">
+      <p><%= folder.name %></p>
+    </a> 
+    <%})%>
+  </main>
+  <%}%>
+</html>

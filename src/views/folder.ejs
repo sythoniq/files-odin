@@ -1,1 +1,22 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Folder</title>
+  </head>
+  <body>
+    <%- include("partials/header.ejs") %>
+    <% if(locals.folder) {%>
+    <h2><%= folder.name %></h2>
+    <main class="folder-container">
+      <form action="/folder/<%= folder.id %>/upload" method="post">
+        <input type="file" name="fileupload" />
+        <button type="submit">Upload</button>
+      </form>
+      <% files.forEach((file) => { %>
+      <% console.log(file) %>
+        <p>list file</p> 
+      <%})%>
+    </main>
+    <%}%>
+  </body>
+</html>
