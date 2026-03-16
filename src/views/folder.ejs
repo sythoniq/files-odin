@@ -8,13 +8,23 @@
     <% if(locals.folder) {%>
     <h2><%= folder.name %></h2>
     <main class="folder-container">
-      <form action="/folder/<%= folder.id %>/upload" method="post">
-        <input type="file" name="fileupload" />
+      <form action="/folder/<%= folder.id %>/upload" method="post"
+        enctype="multipart/form-data">
+        <input type="file" name="uploaded_file" />
         <button type="submit">Upload</button>
       </form>
       <% files.forEach((file) => { %>
-      <% console.log(file) %>
-        <p>list file</p> 
+      <div class="file-card">
+        <p><%= file.name %></p>
+        <p><%= formatDate(file.created) %></p>
+        <p><%= Math.round(file.size / 1000000) %>mb</p>
+        <form action="/<%= file.id %>/download" method="post">
+          <button>Download</button>
+        </form>
+        <form action="/<%= file.id %>/delete" method="post">
+          <button>Delete</button>
+        </form>
+      </div>
       <%})%>
     </main>
     <%}%>

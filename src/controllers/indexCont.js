@@ -3,6 +3,13 @@ const prisma = require("../configs/prisma.js")
 
 const { body, validationResult, matchedData } = require("express-validator")
 
+function formatDate(dateToFormat) {
+  const string = dateToFormat.toString()
+  const [_, month, date, year, time] = string.split(" ")
+  const [hour, min] = time.split(":")
+  return `${date}/${month}/${year}, ${hour}:${min}`
+}
+
 class User {
   validateUser = [
     body("username").trim()
@@ -88,15 +95,62 @@ class Folder {
       where: {id}
     })
     const files = await prisma.file.findMany({
+      where: {folderId: id}
+    })
+    res.render("folder", {folder, files, formatDate})
+  }
+
+  async deleteFolder(req, res, next) {
+    const id = Number(req.params.folderid); 
+    await prisma.file.deleteMany({
       where: {
         folderId: id
       }
     })
-    res.render("folder", {folder, files})
+    await prisma.folder.delete({
+      where: {id}
+    })
+    res.redirect("/");
+  }
+}
+
+class File {
+  async uploadFile(req, res, next) {
+    const {originalname, path, size} = req.file
+    await prisma.file.create({
+      data: {
+        name: originalname,
+        url: path,
+        size: size,
+        uploaderId: Number(req.user.id),
+        folderId: Number(req.params.folderid)
+      }
+    })
+    res.redirect(`/folder/${req.params.folderid}`)
+  }
+
+  async downloadFile(req, res, next) {
+    const file = await prisma.file.findUnique({
+      where: {
+        id: Number(req.params.fileid)
+      }
+    })
+    const path = file.url;
+    res.download(path);
+  }
+
+  async deleteFile(req, res, next) {
+    await prisma.file.delete({
+      where: {
+        id: Number(req.params.fileid)
+      }
+    }) 
+    res.redirect("/");
   }
 }
 
 module.exports = {
   User,
-  Folder
+  Folder,
+  File
 }

@@ -8,9 +8,14 @@
       <button type="submit">Add Folder</button>
     </form>
     <% folders.forEach((folder) => { %>
-    <a href="/folder/<%= folder.id %>">
-      <p><%= folder.name %></p>
-    </a> 
+    <div class="folder-btn">
+      <a href="/folder/<%= folder.id %>">
+        <p><%= folder.name %></p>
+      </a> 
+      <a href="/folder/<%= folder.id %>/delete">
+        <p>x</p>
+      </a>
+    </div>
     <%})%>
   </main>
   <%}%>

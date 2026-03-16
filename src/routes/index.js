@@ -5,6 +5,7 @@ const controller = require("../controllers/indexCont.js")
 const index = Router();
 const folders = new controller.Folder();
 const users = new controller.User();
+const files = new controller.File();
 
 index.get("/", auth.isAuth, folders.getFolders)
 
@@ -21,5 +22,7 @@ index.post("/login", passport.authenticate('local', {
   failureRedirect: "/login"
 }))
 index.post("/sign-up", users.handleRegistration)
+index.post("/:fileid/download", files.downloadFile)
+index.post("/:fileid/delete", files.deleteFile)
 
 module.exports = index;
