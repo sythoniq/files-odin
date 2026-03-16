@@ -1,5 +1,7 @@
+const { createClient } = require("@supabase/supabase-js")
 const bcrypt = require("bcryptjs")
 const prisma = require("../configs/prisma.js")
+const supabase = createClient(`${process.env.PROJECT_URL}`, `${process.env.API_KEY}`)
 
 const { body, validationResult, matchedData } = require("express-validator")
 
@@ -116,17 +118,27 @@ class Folder {
 
 class File {
   async uploadFile(req, res, next) {
-    const {originalname, path, size} = req.file
+    const file = req.file
+    const { data, error } = await
+      supabase.storage.from('uploads').upload(file.originalname, file.buffer, {
+        contentType: file.mimetype,
+        upsert: true
+      });
+    if (error) {
+      throw(error)
+    }
+    const response = await supabase.storage.from('uploads').getPublicUrl(data.path, {download: true})
+
     await prisma.file.create({
       data: {
-        name: originalname,
-        url: path,
-        size: size,
+        name: file.originalname,
+        url: response.data.publicUrl,
+        size: file.size,
         uploaderId: Number(req.user.id),
         folderId: Number(req.params.folderid)
       }
     })
-    res.redirect(`/folder/${req.params.folderid}`)
+    res.redirect(`folder/${req.params.folderid}`)
   }
 
   async downloadFile(req, res, next) {
@@ -135,8 +147,7 @@ class File {
         id: Number(req.params.fileid)
       }
     })
-    const path = file.url;
-    res.download(path);
+    res.redirect(file.url)
   }
 
   async deleteFile(req, res, next) {
