@@ -18,10 +18,10 @@
         <p><%= file.name %></p>
         <p><%= formatDate(file.created) %></p>
         <p><%= Math.round(file.size / 1000000) %>mb</p>
-        <form action="/<%= file.id %>/download" method="post">
+        <form action="/folder/<%= folder.id %>/file/<%= file.id %>/download" method="post">
           <button>Download</button>
         </form>
-        <form action="/<%= file.id %>/delete" method="post">
+        <form action="/folder/<%= folder.id %>/file/<%= file.id %>/delete" method="post">
           <button>Delete</button>
         </form>
       </div>
