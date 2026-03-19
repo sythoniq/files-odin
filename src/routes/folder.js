@@ -1,6 +1,21 @@
 const multer = require("multer")
 const storage = multer.memoryStorage()
-const upload = multer({storage: storage})
+
+function fileFilter(req, file, cb) {
+  const validTypes = ['image/png', 'image/jpeg', 'image/gif', 
+    'application/json', 'application/pdf'
+  ]
+  if (validTypes.include(file.mimetype)) {
+    cb(null, true)
+  } else {
+  }
+  cb(new Error("File type not supported"))
+}
+
+const upload = multer({
+  storage: storage,
+  fileFilter
+})
 
 const { Router } = require("express");
 const folder = Router()

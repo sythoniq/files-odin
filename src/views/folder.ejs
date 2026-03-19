@@ -17,7 +17,7 @@
       <div class="file-card">
         <p><%= file.name %></p>
         <p><%= formatDate(file.created) %></p>
-        <p><%= Math.round(file.size / 1000000) %>mb</p>
+        <p><%= (file.size / 1000).toPrecision(4) %>kb</p>
         <form action="/folder/<%= folder.id %>/file/<%= file.id %>/download" method="post">
           <button>Download</button>
         </form>

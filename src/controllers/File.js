@@ -30,7 +30,7 @@ class File {
         folderId: Number(req.params.folderid)
       }
     })
-    res.redirect(`folder/${req.params.folderid}`)
+    res.redirect(`/folder/${req.params.folderid}`)
   }
 
   async downloadFile(req, res, next) {
@@ -46,13 +46,17 @@ class File {
     const file = await getFile(req.params.fileid)
     const folder = await getFolder(file.folderId)
    
-    await prisma.file.delete({
-      where: {
-        id: Number(req.params.fileid)
-      }
-    }) 
-    const { data, error } = await supabase.storage.from('uploads').remove([`${folder.name}/${file.name}`])
-    res.redirect(`/folder/${folder.id}`)
+    try {
+      await prisma.file.delete({
+        where: {
+          id: Number(req.params.fileid)
+        }
+      }) 
+      const { data, error } = await supabase.storage.from('uploads').remove([`${folder.name}/${file.name}`])
+      res.redirect(`/folder/${folder.id}`)
+    } catch(error) {
+      throw(error)
+    }
   }
 }
 

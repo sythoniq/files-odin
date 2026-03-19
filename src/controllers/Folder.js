@@ -22,7 +22,11 @@ class Folder {
 	]
 
 	async getFolders(req, res, next) {
-		const folders = await prisma.folder.findMany({});
+		const folders = await prisma.folder.findMany({
+      where: {
+        ownerId: Number(req.user.id)
+      }
+    });
 
 		res.render("home", {
 			folders
