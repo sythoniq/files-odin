@@ -1,14 +1,15 @@
 const multer = require("multer")
 const storage = multer.memoryStorage()
 const upload = multer({storage: storage})
+
 const { Router } = require("express");
 const folder = Router()
-const controller = require("../controllers/indexCont")
-const folders = new controller.Folder()
-const files = new controller.File()
 
-folder.get("/:folderid", folders.openFolder)
-folder.get("/:folderid/delete", folders.deleteFolder)
+const Folder = require('../controllers/Folder')
+const File = require('../controllers/File')
+
+folder.get("/:folderid", Folder.openFolder)
+folder.get("/:folderid/delete", Folder.deleteFolder)
 folder.get("/:folderid/:fileid/download", (req, res) => {
   res.send("Handle file download")
 })
@@ -16,10 +17,10 @@ folder.get("/:folderid/:fileid/delete", (req, res) => {
   res.send("Handle file delete")
 })
 
-folder.post("/upload", folders.uploadFolder)
+folder.post("/upload", Folder.uploadFolder)
 
 
 folder.post("/:folderid/upload", upload.single('uploaded_file'),
-  files.uploadFile);
+  File.uploadFile);
 
 module.exports = folder

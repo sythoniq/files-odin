@@ -1,13 +1,13 @@
 const passport = require("passport")
 const { Router } = require("express")
 const auth = require("../configs/auth")
-const controller = require("../controllers/indexCont.js")
 const index = Router();
-const folders = new controller.Folder();
-const users = new controller.User();
-const files = new controller.File();
 
-index.get("/", auth.isAuth, folders.getFolders)
+const Folder = require('../controllers/Folder.js')
+const User = require('../controllers/User.js')
+const File = require("../controllers/File.js")
+
+index.get("/", auth.isAuth, Folder.getFolders)
 
 index.get("/login", (req, res) => {
   res.render("login");
@@ -21,8 +21,8 @@ index.post("/login", passport.authenticate('local', {
   successRedirect: "/",
   failureRedirect: "/login"
 }))
-index.post("/sign-up", users.handleRegistration)
-index.post("/:fileid/download", files.downloadFile)
-index.post("/:fileid/delete", files.deleteFile)
+index.post("/sign-up", User.handleRegistration)
+index.post("/:fileid/download", File.downloadFile)
+index.post("/:fileid/delete", File.deleteFile)
 
 module.exports = index;
