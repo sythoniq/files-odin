@@ -61,13 +61,14 @@ class Folder {
 	]
 
 	async openFolder(req, res, next) {
+    console.log(req.params.folderid)
 		const folder = await getFolder(req.params.folderid)
 
 		const files = await prisma.file.findMany({
-			where: { folderId: Number(req.params.folderid) }
+			where: { folderId: folder.id }
 		})
 
-		res.render("folder", { folder, files, formatDate })
+		return res.render("folder", { folder, files, formatDate })
 	}
 
 	async deleteFolder(req, res, next) {

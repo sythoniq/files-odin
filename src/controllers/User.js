@@ -37,7 +37,6 @@ class User {
           hash
         }
       })
-      console.log(user);
       res.redirect("/login");
     }
   ]

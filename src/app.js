@@ -1,16 +1,18 @@
 require('dotenv').config();
+
 const path = require("node:path")
 const passport = require("passport")
 const prisma = require("./configs/prisma")
 const session = require("express-session")
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store")
+
 const express = require("express");
 const app = express()
-
 
 const PORT = 3000;
 
 app.use(express.urlencoded({extended: true}))
+
 
 app.set("views", path.join(__dirname, "views"))
 app.set("view engine", "ejs")
