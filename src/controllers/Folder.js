@@ -4,8 +4,6 @@ const supabase = createClient(`${process.env.PROJECT_URL}`, `${process.env.API_K
 
 const { body, validationResult, matchedData } = require("express-validator")
 
-const { getFolder } = require("../configs/queries.js")
-
 function formatDate(dateToFormat) {
 	const string = dateToFormat.toString()
 	const [_, month, date, year, time] = string.split(" ")
@@ -22,11 +20,7 @@ class Folder {
 	]
 
 	async getFolders(req, res, next) {
-		const folders = await prisma.folder.findMany({
-      where: {
-        ownerId: Number(req.user.id)
-      }
-    });
+		const folders = await prisma.folder.findMany({});
 
 		res.render("home", {
 			folders
@@ -61,14 +55,15 @@ class Folder {
 	]
 
 	async openFolder(req, res, next) {
-    console.log(req.params.folderid)
-		const folder = await getFolder(req.params.folderid)
+		const folder = await prisma.folder.findUnique({
+      where: {id: Number(req.params.folderid)}
+    })
 
 		const files = await prisma.file.findMany({
-			where: { folderId: folder.id }
+			where: { folderId: Number(req.params.folderid) }
 		})
 
-		return res.render("folder", { folder, files, formatDate })
+		res.render("folder", { folder, files, formatDate })
 	}
 
 	async deleteFolder(req, res, next) {

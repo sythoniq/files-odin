@@ -22,7 +22,7 @@ index.post("/login", passport.authenticate('local', {
   failureRedirect: "/login"
 }))
 index.post("/sign-up", User.handleRegistration)
-index.post("/:fileid/download", File.downloadFile)
-index.post("/:fileid/delete", File.deleteFile)
+index.post("/folder/:folderid/file/:fileid/download", File.downloadFile)
+index.post("/folder/:folderid/file/:fileid/delete", File.deleteFile)
 
 module.exports = index;

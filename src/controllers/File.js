@@ -3,13 +3,15 @@ const prisma = require("../configs/prisma.js");
 
 const supabase = createClient(`${process.env.PROJECT_URL}`, `${process.env.API_KEY}`)
 
-const { getFolder } = require('../configs/queries.js')
-const { getFile } = require("../configs/queries.js");
 
 class File {
   async uploadFile(req, res, next) {
     const file = req.file
-    const folder = await getFolder(req.params.folderid)
+    const folder = await prisma.folder.findUnique({
+      where: {
+        id: Number(req.params.folderid)
+      }
+    })
     
     const { data, error } = await
       supabase.storage.from('uploads').upload(`${folder.name}/${file.originalname}`, file.buffer, {
@@ -43,7 +45,11 @@ class File {
   }
 
   async deleteFile(req, res, next) {
-    const file = await getFile(req.params.fileid)
+    const file = await prisma.file.findUnique({
+      where: {
+        id: Number(req.params.fileid)
+      }
+    })
     const folder = await getFolder(file.folderId)
    
     try {
